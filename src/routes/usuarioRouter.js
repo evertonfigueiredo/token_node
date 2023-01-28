@@ -7,9 +7,7 @@ import authControllers from "../controllers/authControllers.js";
 router.get("/", controller.getAll);
 router.post("/criar", controller.criarUsuario);
 
-router.post("/login", authControllers.login);
-
-router.get("/rotaAutenticada", authControllers.verificarToken, controller.rotaAutenticada)
-
+router.post("/login", authControllers.login)
+router.post("/rotaAutenticada", authControllers.verificarToken, controller.rotaAutenticada)
 
 export default router;

@@ -1,8 +1,9 @@
-import usuarioSchema from "../models/usuarioSchema.js";
-import bcrypt from "bcrypt"
+import usarioSchema from "../models/usuarioSchema.js";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import * as dotenv from "dotenv";
+
 dotenv.config()
 
 const SECRET = process.env.SECRET;
@@ -10,31 +11,28 @@ const SECRET = process.env.SECRET;
 const login = (req, res) => {
     try {
         
-        usuarioSchema.findOne({email: req.body.email }, (error, usuario) => {
-            
-            if (!usuario) {
+        usarioSchema.findOne({email: req.body.email}, (error, usuario) =>{
+
+            if(!usuario){
                 return res.status(401).json({
                     statusCode: 401,
-                    message: "Usuário não encontrado.",
+                    message: "Usuário não encontrado!",
                     data: {
                         email: req.body.email
                     }
                 })
             }
-            
-            const validarPassword = bcrypt.compareSync(
-                req.body.password,
-                usuario.password
-            );
 
-            if (!validarPassword) {
+            const validacaoPassword = bcrypt.compareSync(req.body.password, usuario.password)
+
+            if (!validacaoPassword) {
                 return res.status(401).json({
                     statusCode: 401,
-                    message: "Não autorizado"
+                    message: "Não autorizado!",
                 })
             }
 
-            const token = jwt.sign({name: usuario.name }, SECRET);
+            const token = jwt.sign({name: usuario.name}, SECRET)
 
             res.status(200).json({
                 statusCode: 200,
@@ -43,25 +41,28 @@ const login = (req, res) => {
                     token
                 }
             })
+
         })
 
+
     } catch (error) {
-        console.error(err);
+        console.error(error);
         res.status(500).json({
             statusCode: 500,
-            message: err.message,
-        });
+            message: error.message
+        })
     }
 }
 
 const verificarToken = (req, res, next) => {
+
     const tokenHeader = req.headers["authorization"];
     const token = tokenHeader && tokenHeader.split(" ")[1];
 
     if (!token) {
         return res.status(401).json({
             statusCode: 401,
-            message: "Acesso negado!"
+            message: "Não autorizado!",
         })
     }
 
@@ -69,14 +70,15 @@ const verificarToken = (req, res, next) => {
 
         jwt.verify(token, SECRET);
         next();
-
         
     } catch (error) {
-        return res.status(500).json({
+        console.error(error);
+        res.status(500).json({
             statusCode: 500,
-            message: "Token não valido.",
-          });
+            message: "Token não valido."
+        })
     }
+
 }
 
 
