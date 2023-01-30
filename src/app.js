@@ -15,5 +15,11 @@ db.connect();
 import usarioRoutes from "./routes/usuarioRouter.js"
 
 app.use("/usuario", usarioRoutes)
+app.use("/", (req,res) => {
+    res.status(200).json({
+        statusCode: 200,
+        message: "Teste"
+    })
+})
 
 export default app;
