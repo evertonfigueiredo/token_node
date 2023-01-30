@@ -1,7 +1,15 @@
-{ 
+{
     "version": 2,
-    "name": "token-node",
     "builds": [
-       { "src": "server.js", "use": "@vercel/node" }
+     {
+         "src": "./server.js",
+         "use": "@vercel/node"
+     }
+    ],
+    "routes": [
+     {
+         "src": "/(.*)",
+         "dest": "/"
+     }
     ]
  }
