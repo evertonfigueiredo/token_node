@@ -19,10 +19,14 @@ const getAll = async (req, res) => {
 }
 
 const criarUsuario = async (req, res) => {
+
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
     req.body.password = hashedPassword;
 
     try {
+
+        console.log(req.body);
+
         const novoUsuario = new usuarioSchema(req.body);
 
         const usuarioSalvo = await novoUsuario.save();
@@ -38,7 +42,7 @@ const criarUsuario = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             statusCode: 500,
-            message: err.message
+            message: error.message
         });
     }
 }
