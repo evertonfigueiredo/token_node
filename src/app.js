@@ -16,6 +16,10 @@ import usarioRoutes from "./routes/usuarioRouter.js"
 
 app.use("/usuario", usarioRoutes)
 
+app.post("/api/users", (req, res) => {
+    console.log(req.body);
+})
+
 
 
 export default app;
