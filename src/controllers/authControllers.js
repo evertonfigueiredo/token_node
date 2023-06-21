@@ -32,7 +32,9 @@ const login = (req, res) => {
                 })
             }
 
-            const token = jwt.sign({name: usuario.name}, SECRET)
+            const token = jwt.sign({name: usuario.name}, SECRET,{
+                expiresIn: 2 * 60
+            })
 
             res.status(200).json({
                 statusCode: 200,

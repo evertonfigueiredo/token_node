@@ -12,9 +12,9 @@ app.use(express.json());
 import db from "./database/mongoConfig.js"
 db.connect();
 
-import usarioRoutes from "./routes/usuarioRouter.js"
+import usuarioRoutes from "./routes/usuarioRouter.js"
 
-app.use("/usuario", usarioRoutes)
+app.use("/usuario", usuarioRoutes)
 
 app.post("/api/users", (req, res) => {
     console.log(req.body);
